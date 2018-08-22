@@ -4,6 +4,7 @@
 #copy and paste into Rstudio to run
 #code written on a Windows computer
 
+install.packages("base64enc")
 library(base64enc)
 install.packages("httpuv")
 library(httpuv)
@@ -38,7 +39,27 @@ find.hashtags <- function(vec){
   df <- df[order(df$freq,decreasing = TRUE),]
   return(df)
 }
+
+find.reference <- function(vec){
+  at.pattern <- "@[[:alpha:]]+"
+  have.at <- grep(x = vec, pattern = at.pattern)
+  at.matches <- gregexpr(pattern = at.pattern,
+                           text = vec[have.at])
+  extracted.at <- regmatches(x = vec[have.at], m = at.matches)
+  df <- data.frame(table(tolower(unlist(extracted.at))))
+  colnames(df) <- c("tag","freq")
+  df <- df[order(df$freq,decreasing = TRUE),]
+  return(df)
+}
+
+#printing chart of most used hashtags
 dat = head(find.hashtags(txt),50)
 dat2 = transform(dat,tag = reorder(tag,freq))
 p <- ggplot(dat2, aes(x = tag, y = freq)) + geom_bar( stat="identity", fill = "red")
 p + coord_flip() + labs(title = "Trump's Most Used Hashtags")
+
+#printing chart of most used references (@'whoever')
+dat = head(find.reference(txt),50)
+dat2 = transform(dat,tag = reorder(tag,freq))
+p <- ggplot(dat2, aes(x = tag, y = freq)) + geom_bar( stat="identity", fill = "red")
+p + coord_flip() + labs(title = "Trump's Most Referenced")
