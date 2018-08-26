@@ -4,20 +4,17 @@
 #copy and paste into Rstudio to run
 #code written on a Windows computer
 
-install.packages("base64enc")
-library(base64enc)
-install.packages("httpuv")
-library(httpuv)
-install.packages("openssl")
-library(openssl)
-install.packages("httr")
-library(httr)
-install.packages("twitteR")
-library(twitteR)
-install.packages("rlang")
-library("rlang")
-install.packages("ggplot2")
-library(ggplot2)
+pack_check<-function(x){
+  if (!x %in% installed.packages()) install.packages(x)
+    paste(x, "was previously installed")
+  else {
+    paste(x, "is already installed")
+  }
+}
+packages_ <- c("base64enc", "httpuv", "openssl", "httr", "twitteR", "rlang", "ggplot2")
+sapply(packages_, pack_check)
+lapply(packages_, require, character.only =TRUE)
+
 
 key <- "QYQXoN4JdRYu3phyiCe4u3uQm"
 secret <- "QAhnzSUsmpQPZ0QlhHhHiA1kjwNSeQajJoN4bT17xky80OSaSP" 
