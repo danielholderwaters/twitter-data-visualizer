@@ -1,6 +1,3 @@
-#This is my EDJ Analytics cover letter
-#I would love to apply my expertise for your team
-#this code finds and charts the most popular hashtags that the president
 #copy and paste into Rstudio to run
 #code written on a Windows computer
 
